@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,5 +48,18 @@ public class ClienteController {
 			})
 		.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		
+	}
+	
+	@PutMapping("{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void update(@PathVariable Integer id, @RequestBody Cliente clienteUpdate) {
+		repository
+		.findById(id)
+		.map(cliente ->{ 
+			clienteUpdate.setId(cliente.getId());
+			return repository.save(clienteUpdate);
+			
+			})
+		.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 }
